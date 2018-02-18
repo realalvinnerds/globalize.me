@@ -11,8 +11,15 @@
          height: 80%;
         width: 100%;
        }
+
+       #global {
+         font-family: "helvetica";
+         font-size: 50px;
+         color: lightblue;
+       }
+
        h1 {
-       	font-family: "Indie Flower";
+       	font-family: "helvetica";
        	font-size: 24px;
        	font-style: normal;
        	font-variant: normal;
@@ -23,9 +30,20 @@
 
   </head>
   <body>
-    <h1><center>Globalize.Me</h1>
+    <h1 id="global"><center>Globalize.Me</h1>
+      <center><img src="http://www.feedtip.com/wp-content/uploads/2014/01/Flexible-Search-Box.jpg" width="400px" height="50px" alt="search">
+      <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+      <br>
     <div id="map"></div>
     <script>
+
+      (function() {
+        var cx = '123:456'; // Insert your own Custom Search engine ID here
+        var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+        gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+      })();
+
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 4,
@@ -124,7 +142,44 @@
             '<div>news source: <em>hanoitimes.vn</em><div>click photo for full article</div>'] //Vietnam, Hanoi
         };
 
-        var markers = [];
+
+                // Create the search box and link it to the UI element.
+                var input = document.getElementById('pac-input');
+                var searchBox = new google.maps.places.SearchBox(input);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+                // Bias the SearchBox results towards current map's viewport.
+                map.addListener('bounds_changed', function() {
+                  searchBox.setBounds(map.getBounds());
+                });
+
+                var markers = [];
+                // Listen for the event fired when the user selects a prediction and retrieve
+                // more details for that place.
+                searchBox.addListener('places_changed', function() {
+                  var places = searchBox.getPlaces();
+
+                  if (places.length == 0) {
+                    return;
+                  }
+
+                  // For each place, get the icon, name and location.
+                  var bounds = new google.maps.LatLngBounds();
+                  places.forEach(function(place) {
+                    if (!place.geometry) {
+                      console.log("Returned place contains no geometry");
+                      return;
+                    }
+                    if (place.geometry.viewport) {
+                      // Only geocodes have viewport.
+                      bounds.union(place.geometry.viewport);
+                    } else {
+                      bounds.extend(place.geometry.location);
+                    }
+                  });
+                  map.fitBounds(bounds);
+                });
+
         var windows = [];
         var i = 0;
         for (var key in latLng_list){
@@ -160,7 +215,7 @@
       }
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCY35EWd5mgWcORM1FlZtqdLYKsG__F8Q&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCY35EWd5mgWcORM1FlZtqdLYKsG__F8Q&libraries=places&callback=initMap">
     </script>
   </body>
 </html>
