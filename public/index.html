@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Globalize.Me</title>
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Indie+Flower" />
+    <style>
+       #map {
+         height: 80%;
+        width: 100%;
+       }
+       h1 {
+       	font-family: "Indie Flower";
+       	font-size: 24px;
+       	font-style: normal;
+       	font-variant: normal;
+       	font-weight: 500;
+       	line-height: 26.4px;
+       }
+    </style>
+
+  </head>
+  <body>
+    <h1><center>Globalize.Me</h1>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: new google.maps.LatLng(51.508742,-0.120850)
+        });
+        var latLng_list = {
+          'Los Angeles, United States':[{lat: 34.052234, lng:-118.243685},
+            '<center><h1>Trolls on Twitter make false claims of being assaulted at screenings of \'Black Panther\'</h1><br>' +
+            '<a href="http://www.latimes.com/nation/la-na-trolls-black-panther-20180217-story.html">' +
+            '<img src="http://www.latimes.com/resizer/B7AMmM-qnJI1rEDivOv9oDo0tRY=/1400x0/arc-anglerfish-arc2-prod-tronc.s3.amazonaws.com/public/NS22KGCYJRFMZDGKOQXJ2KV7NE.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>latimes.com</em><div>click photo for full article</div>'], //United States, CA, Los Angeles
+          'New York City, United States':[{lat: 40.712775, lng: -74.005973},
+            '<center><h1>Future Lions of New York</h1><br>' +
+            '<a href="https://www.nytimes.com/2018/02/16/nyregion/future-lions-of-new-york.html?rref=collection%2Fsectioncollection%2Fnyregion">' +
+            '<img src="https://static01.nyt.com/images/2018/02/18/nyregion/18CUBS2/18CUBS2-jumbo.jpg?quality=100&auto=webp" width="200px"></a><br></center>' +
+            '<div>news source: <em>nytimes.com</em><div>click photo for full article</div>'], //US, NY, NYC
+          'Moscow, Russia':[{lat: 55.755826, lng: 37.617300},
+            '<center><h1>Russia Raises Minimum Wage 43% Ahead of Presidential Elections</h1><br>' +
+            '<a href="https://themoscowtimes.com/news/russia-raises-minimum-wage-43-percent-ahead-presidential-elections-60535">' +
+            '<img src="https://themoscowtimes.com/static/uploads/publications/2018/2/16/e0e8c03507f24509817a16af01370d5e.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>themoscowtimes.com</em><div>click photo for full article</div>'], //Russia, Moscow
+          'St Petersburg, Russia':[{lat: 59.934280, lng: 30.335099},
+            '<center><h1>St Petersburg supermarket \'bomber\' arrested by police in Russia</h1><br>' +
+            '<a href="http://www.independent.co.uk/news/world/europe/st-petersburg-supermarket-bomb-explosion-attack-terrorist-russia-police-arrest-detain-a8134766.html">' +
+            '<img src="https://static.independent.co.uk/s3fs-public/styles/story_large/public/thumbnails/image/2017/12/27/17/supermarket-russia-st-petersburg.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>Independent.co.uk</em><div>click photo for full article</div>'], //Russia, St Petersburg
+          'Beijing, China':[{lat: 116.074, lng: 39.9042},
+            '<center><h1>Beijing earthquake latest: Magnitude 4.4 quake in Hebei province hits China\'s capital</h1><br>' +
+            '<a href="http://www.independent.co.uk/news/world/asia/beijing-earthquake-latest-update-china-magnitude-hebei-tremors-capital-a8206336.html">' +
+            '<img src="https://static.independent.co.uk/s3fs-public/styles/story_large/public/thumbnails/image/2018/02/12/11/beijing-earthquake.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>Independent.co.uk</em><div>click photo for full article</div>'],//China, Beijing
+          'Shanghai, China':[{lat: 31.230390, lng: 121.473702},
+            '<center><h1>Radical solutions to the air pollution crisis from around the world</h1><br>' +
+            '<a href="http://www.independent.co.uk/environment/air-pollution-solutions-crisis-radical-world-london-uk-beijing-shanghai-delhi-a8191411.html">' +
+            '<img src="https://static.independent.co.uk/s3fs-public/styles/story_large/public/thumbnails/image/2018/02/02/15/india-chimney-smog.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>independent.co.uk</em><div>click photo for full article</div>'], //China, Shanghai
+          'Berlin, Germany':[{lat:52.520007, lng: 13.404954},
+            '<center><h1>5 things to know about this year\'s Berlinale film festival</h1><br>' +
+            '<a href="https://www.thelocal.de/20180212/5-things-to-know-about-this-years-berlinale-film-festival">' +
+            '<img src="https://www.thelocal.de/userdata/images/article/1896bd1093ecb7765d5751381d331a412fbfa322b51b6c32d95c46137703ea8c.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>thelocal.de</em><div>click photo for full article</div>'], //Germany, Berlin
+          'Hamburg, Germany':[{lat: 53.551085, lng: 9.993682},
+            '<center><h1>Chanel fashion show sails into Hamburg for Lagerfeld homecoming</h1><br>' +
+            '<a href="https://www.thelocal.de/20171207/chanel-fashion-show-sails-into-hamburg-for-lagerfeld-homecoming">' +
+            '<img src="https://www.thelocal.de/userdata/images/article/b71b00ad16a3aa5c636721bd27a3198bcfc548c7b3e293ed2a5de4589f1ca463.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>thelocal.de</em><div>click photo for full article</div>'], //Germany, Hamburg
+          'London, United Kingdom':[{lat:51.507351, lng: -0.127758},
+            '<center><h1>Great Portland Street fire: Crews tackle building site blaze</h1><br>' +
+            '<a href="http://www.bbc.com/news/uk-england-london-43097234">' +
+            '<img src="https://ichef.bbci.co.uk/news/624/cpsprodpb/5917/production/_100070822_mediaitem100069571.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>bbc.com</em><div>click photo for full article</div>'], //United Kingdom, London
+          'Birmingham, United Kingdom':[{lat: 52.486243, lng: -1.890401},
+            '<center><h1>Birmingham City 0 Millwall 1 REACTION: Fred Onyedinma winner frustrates Blues</h1><br>' +
+            '<a href="https://www.birminghammail.co.uk/sport/football/transfer-news/birmingham-city-millwall-defeat-live-14302773">' +
+            '<img src="https://i2-prod.birminghammail.co.uk/sport/football/football-news/article14303570.ece/ALTERNATES/s1200/Birmingham-City-v-Millwall.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>birminghammail.co.uk</em><div>click photo for full article</div>'], // United Kingdom, Birmingham
+          'Paris, France':[{lat: 48.566, lng: 2.352},
+            '<center><h1>Eiffel Tower closed as Paris hammered by rain and snow</h1><br>' +
+            '<a href="http://www.independent.co.uk/news/world/europe/eiffel-tower-closed-paris-rain-snow-a8203336.html">' +
+            '<img src="https://static.independent.co.uk/s3fs-public/styles/story_large/public/thumbnails/image/2018/02/09/18/eiffel-tower-closed-snow.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>Independent.co.uk</em><div>click photo for full article</div>'], //France, Paris
+          'Marseille, France':[{lat: 43.296482, lng: 5.369780},
+            '<center><h1>Dimitri Payet set to take a pay cut to join Marseille as West Ham approach transfer agreement with Ligue 1 giants</h1><br>' +
+            '<a href="http://www.independent.co.uk/sport/football/transfers/dimitri-payet-set-to-take-a-pay-cut-to-join-marseille-as-west-ham-approach-transfer-deal-a7549001.html">' +
+            '<img src="https://static.independent.co.uk/s3fs-public/styles/story_large/public/thumbnails/image/2017/01/13/11/payet.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>independent.co.uk</em><div>click photo for full article</div>'], // France, Marseille
+          'Tokyo, Japan':[{lat: 35.689487, lng: 139.691706},
+            '<center><h1>Yuzuru Hanyu charms audiences at Tokyo public viewings</h1><br>' +
+            '<a href="https://www.japantimes.co.jp/sports/2018/02/16/olympics/winter-olympics/olympics-figure-skating/yuzuru-hanyu-charms-audiences-tokyo-public-viewings/#.WolD3KinEgw">' +
+            '<img src="https://www.japantimes.co.jp/wp-content/uploads/2018/02/sp-viewing-a-20180217-870x601.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>japantimes.co.jp</em><div>click photo for full article</div>'],// Japan, Tokyo
+          'Yokohoma, Japan':[{lat: 35.443708, lng: 139.638026},
+            '<center><h1>Pokemon Go Fans Join Giant Pikachus at Yokohama Festival </h1><br>' +
+            '<a href="https://gadgets.ndtv.com/apps/news/pokemon-go-fans-join-giant-pikachus-at-yokohama-festival-1735839">' +
+            '<img src="https://i.gadgets360cdn.com/large/pokemon_go_festival_reuters_1502346205320.JPG?output-quality=70&output-format=webp" width="200px"></a><br></center>' +
+            '<div>news source: <em>gadgets.ndtv.com</em><div>click photo for full article</div>'],//Japan, Yokohoma
+          'Jerusalem, Israel':[{lat: 31.046051, lng: 34.851612},
+            '<center><h1>JERUSALEM RESIDENT ORDERED TO REMOVE ANTI-DEPORTATION SIGN FROM APARTMENT</h1><br>' +
+            '<a href="http://www.jpost.com/Israel-News/Politics-And-Diplomacy/Jerusalem-resident-ordered-to-remove-anti-deportation-sign-from-apartment-542835">' +
+            '<img src="http://images.jpost.com/image/upload/f_auto,fl_lossy/t_Article2016_ControlFaceDetect/414768" width="200px"></a><br></center>' +
+            '<div>news source: <em>jpost.com</em><div>click photo for full article</div>'], //Israel, Jerusalem
+          'Tell Aviv, Israel':[{lat: 32.085300, lng: 34.781768},
+            '<center><h1>2,000 demonstrators rally in Tel Aviv demanding Netanyahu resign</h1><br>' +
+            '<a href="https://www.israelnationalnews.com/News/News.aspx/242036">' +
+            '<img src="https://k6s3v6r4.ssl.hwcdn.net/pictures/815/815934.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>israelnationalnews.com</em><div>click photo for full article</div>'], //Israel, Tel Aviv
+          'Ho Chi Minh City, Vietnam':[{lat: 10.823099, lng: 106.629664},
+            '<center><h1>48 hours in: Ho Chi Minh City</h1><br>' +
+            '<a href="http://www.independent.co.uk/travel/asia/48-hours-in-ho-chi-minh-city-8496724.html">' +
+            '<img src="https://static.independent.co.uk/s3fs-public/styles/story_large/public/thumbnails/image/2013/02/14/14/48hours.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>independent.co.uk</em><div>click photo for full article</div>'], //Vietnam, Ho Chi Minh City
+          'Hanoi, Vietnam':[{lat: 21.027764, lng: 105.834160},
+            '<center><h1>7 flights between Hanoi and Ho Chi Minh City added before Tet</h1><br>' +
+            '<a href="http://www.hanoitimes.vn/news/viet-nam/2018/02/81E0C1D2/7-flights-between-hanoi-and-ho-chi-minh-city-added-before-tet/">' +
+            '<img src="http://cdn.hanoitimes.vn/mfiles/data/2018/02/81E0C1D2/anh-1.jpg" width="200px"></a><br></center>' +
+            '<div>news source: <em>hanoitimes.vn</em><div>click photo for full article</div>'] //Vietnam, Hanoi
+        };
+
+        var markers = [];
+        var windows = [];
+        var i = 0;
+        for (var key in latLng_list){
+
+          var infowindow = new google.maps.InfoWindow({
+            content: latLng_list[key][1],
+            maxWidth: 300
+          });
+
+          windows.push(infowindow);
+
+          var marker = new google.maps.Marker({
+            position: latLng_list[key][0],
+            map: map,
+            title: 'info'
+          });
+
+          google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+                return function() {
+                    windows[i].open(map, marker);
+                    for (var j = 0; j < windows.length; j++){
+                      if(j != i){
+                        windows[j].close();
+                      }
+                    }
+                }
+            })(marker, i));
+
+          markers.push(marker);
+          i ++;
+
+        }
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCY35EWd5mgWcORM1FlZtqdLYKsG__F8Q&callback=initMap">
+    </script>
+  </body>
+</html>
